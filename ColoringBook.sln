@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColoringBook", "ColoringBook\ColoringBook.csproj", "{76930BA3-255F-4E29-A895-70E699258996}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76930BA3-255F-4E29-A895-70E699258996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76930BA3-255F-4E29-A895-70E699258996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76930BA3-255F-4E29-A895-70E699258996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76930BA3-255F-4E29-A895-70E699258996}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {423017EE-D057-4EE9-8532-4CDBA1B1A1EA}
+	EndGlobalSection
+EndGlobal
