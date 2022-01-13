@@ -53,6 +53,9 @@
             this.Name = "FormTextEditor";
             this.Text = "Редактор кода";
             this.Load += new System.EventHandler(this.FormTextEditor_Load);
+            this.Shown += new System.EventHandler(this.FormTextEditor_Shown);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormTextEditor_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormTextEditor_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextEditor)).EndInit();
             this.ResumeLayout(false);
 

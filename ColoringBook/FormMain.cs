@@ -43,14 +43,11 @@ namespace ColoringBook
 
         //____всё что касается рисования на втором холсте______
         Graphics graphics2;
-        //Image right = Image.FromFile("right.png"),
-        //left = Image.FromFile("left.png"),
-        //down = Image.FromFile("down.png"),
-        //up = Image.FromFile("up.png");
-        Image right = Image.FromFile("green.png"),
-        left = Image.FromFile("green.png"),
-        down = Image.FromFile("green.png"),
-        up = Image.FromFile("green.png");
+        Image right = Image.FromFile("right.png"),
+        left = Image.FromFile("left.png"),
+        down = Image.FromFile("down.png"),
+        up = Image.FromFile("up.png");
+
         int[] coordsCommands = { 0, 0 };
         bool IsWriting = false;
         int sizeCommand = 50;
@@ -88,11 +85,6 @@ namespace ColoringBook
         }
         private void InitializeField()
         {
-            
-            //buttonStartStopWriting.TabStop = false;
-            //buttonDraw.TabStop = false;
-            //buttonClearCommands.TabStop = false;
-            pictureBoxHolst.Focus();
             for (int i = 0; i < size; i++)
             {
                 var tempSize = size + Convert.ToInt32(i % 2 == 0);
@@ -403,6 +395,7 @@ namespace ColoringBook
         {
             var hmm = new FormTextEditor();
             hmm.Show();
+            hmm.Refresh();
         }
 
         private void клавиатураToolStripMenuItem_Click(object sender, EventArgs e)
