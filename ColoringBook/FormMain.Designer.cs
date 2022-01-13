@@ -34,31 +34,27 @@
             this.pictureBox_Yellow = new System.Windows.Forms.PictureBox();
             this.pictureBox_Red = new System.Windows.Forms.PictureBox();
             this.pictureBoxClear = new System.Windows.Forms.PictureBox();
-            this.pictureBoxHolst = new System.Windows.Forms.PictureBox();
+            this.pictureBoxCanvas = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.helloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.режимToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.клавиатураToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mouseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.редакторКодаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.pictureBoxCommands = new System.Windows.Forms.PictureBox();
             this.labelStartStopWriting = new System.Windows.Forms.Label();
-            this.labelDraw = new System.Windows.Forms.Label();
-            this.labelClear = new System.Windows.Forms.Label();
             this.labelSave = new System.Windows.Forms.Label();
-            this.редакторКодаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Blue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Purple)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Yellow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Red)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClear)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHolst)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCanvas)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCommands)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox_Blue
@@ -118,16 +114,16 @@
             this.pictureBoxClear.TabStop = false;
             this.pictureBoxClear.Click += new System.EventHandler(this.pictureBoxClear_Click);
             // 
-            // pictureBoxHolst
+            // pictureBoxCanvas
             // 
-            this.pictureBoxHolst.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBoxHolst.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.pictureBoxHolst.Location = new System.Drawing.Point(31, 32);
-            this.pictureBoxHolst.Name = "pictureBoxHolst";
-            this.pictureBoxHolst.Size = new System.Drawing.Size(552, 400);
-            this.pictureBoxHolst.TabIndex = 6;
-            this.pictureBoxHolst.TabStop = false;
-            this.pictureBoxHolst.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxHolst_MouseDown);
+            this.pictureBoxCanvas.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBoxCanvas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.pictureBoxCanvas.Location = new System.Drawing.Point(31, 32);
+            this.pictureBoxCanvas.Name = "pictureBoxHolst";
+            this.pictureBoxCanvas.Size = new System.Drawing.Size(552, 400);
+            this.pictureBoxCanvas.TabIndex = 6;
+            this.pictureBoxCanvas.TabStop = false;
+            this.pictureBoxCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxHolst_MouseDown);
             // 
             // menuStrip1
             // 
@@ -154,7 +150,7 @@
             this.клавиатураToolStripMenuItem,
             this.mouseToolStripMenuItem});
             this.режимToolStripMenuItem.Name = "режимToolStripMenuItem";
-            this.режимToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.режимToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.режимToolStripMenuItem.Text = "Режим";
             // 
             // клавиатураToolStripMenuItem
@@ -170,6 +166,13 @@
             this.mouseToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.mouseToolStripMenuItem.Text = "Мышь";
             this.mouseToolStripMenuItem.Click += new System.EventHandler(this.mouseToolStripMenuItem_Click);
+            // 
+            // редакторКодаToolStripMenuItem
+            // 
+            this.редакторКодаToolStripMenuItem.Name = "редакторКодаToolStripMenuItem";
+            this.редакторКодаToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.редакторКодаToolStripMenuItem.Text = "редактор кода";
+            this.редакторКодаToolStripMenuItem.Click += new System.EventHandler(this.редакторКодаToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -226,16 +229,6 @@
             this.label5.TabIndex = 15;
             this.label5.Text = "Очистить";
             // 
-            // pictureBoxCommands
-            // 
-            this.pictureBoxCommands.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBoxCommands.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.pictureBoxCommands.Location = new System.Drawing.Point(803, 32);
-            this.pictureBoxCommands.Name = "pictureBoxCommands";
-            this.pictureBoxCommands.Size = new System.Drawing.Size(310, 400);
-            this.pictureBoxCommands.TabIndex = 16;
-            this.pictureBoxCommands.TabStop = false;
-            // 
             // labelStartStopWriting
             // 
             this.labelStartStopWriting.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -248,45 +241,16 @@
             this.labelStartStopWriting.Text = "Начать запись";
             this.labelStartStopWriting.Click += new System.EventHandler(this.labelStartStopWriting_Click);
             // 
-            // labelDraw
-            // 
-            this.labelDraw.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelDraw.AutoSize = true;
-            this.labelDraw.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelDraw.Location = new System.Drawing.Point(927, 495);
-            this.labelDraw.Name = "labelDraw";
-            this.labelDraw.Size = new System.Drawing.Size(70, 15);
-            this.labelDraw.TabIndex = 21;
-            this.labelDraw.Text = "Нарисовать";
-            this.labelDraw.Click += new System.EventHandler(this.labelDraw_Click);
-            // 
-            // labelClear
-            // 
-            this.labelClear.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelClear.AutoSize = true;
-            this.labelClear.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelClear.Location = new System.Drawing.Point(1047, 493);
-            this.labelClear.Name = "labelClear";
-            this.labelClear.Size = new System.Drawing.Size(50, 15);
-            this.labelClear.TabIndex = 22;
-            this.labelClear.Text = "Стереть";
-            // 
             // labelSave
             // 
             this.labelSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelSave.AutoSize = true;
-            this.labelSave.Location = new System.Drawing.Point(935, 529);
+            this.labelSave.Location = new System.Drawing.Point(239, 497);
             this.labelSave.Name = "labelSave";
             this.labelSave.Size = new System.Drawing.Size(60, 13);
             this.labelSave.TabIndex = 23;
             this.labelSave.Text = "Сохранить";
-            // 
-            // редакторКодаToolStripMenuItem
-            // 
-            this.редакторКодаToolStripMenuItem.Name = "редакторКодаToolStripMenuItem";
-            this.редакторКодаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.редакторКодаToolStripMenuItem.Text = "редактор кода";
-            this.редакторКодаToolStripMenuItem.Click += new System.EventHandler(this.редакторКодаToolStripMenuItem_Click);
+            this.labelSave.Click += new System.EventHandler(this.labelSave_Click);
             // 
             // FormColoringBook
             // 
@@ -295,16 +259,13 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(204)))), ((int)(((byte)(153)))));
             this.ClientSize = new System.Drawing.Size(1140, 598);
             this.Controls.Add(this.labelSave);
-            this.Controls.Add(this.labelClear);
-            this.Controls.Add(this.labelDraw);
             this.Controls.Add(this.labelStartStopWriting);
-            this.Controls.Add(this.pictureBoxCommands);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBoxHolst);
+            this.Controls.Add(this.pictureBoxCanvas);
             this.Controls.Add(this.pictureBox_Blue);
             this.Controls.Add(this.pictureBox_Purple);
             this.Controls.Add(this.pictureBox_Yellow);
@@ -323,10 +284,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Yellow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Red)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClear)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHolst)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCanvas)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCommands)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -339,7 +299,7 @@
         private System.Windows.Forms.PictureBox pictureBox_Yellow;
         private System.Windows.Forms.PictureBox pictureBox_Purple;
         private System.Windows.Forms.PictureBox pictureBox_Blue;
-        private System.Windows.Forms.PictureBox pictureBoxHolst;
+        private System.Windows.Forms.PictureBox pictureBoxCanvas;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helloToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem режимToolStripMenuItem;
@@ -350,10 +310,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.PictureBox pictureBoxCommands;
         private System.Windows.Forms.Label labelStartStopWriting;
-        private System.Windows.Forms.Label labelDraw;
-        private System.Windows.Forms.Label labelClear;
         private System.Windows.Forms.Label labelSave;
         private System.Windows.Forms.ToolStripMenuItem редакторКодаToolStripMenuItem;
     }

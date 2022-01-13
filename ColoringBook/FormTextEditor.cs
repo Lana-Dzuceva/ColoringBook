@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +17,16 @@ namespace ColoringBook
         Font font = new System.Drawing.Font("Comic Sans MS", 25F);
         Graphics graphics;
         List<string> commands = new List<string>();
+
+        string path = System.IO.Directory.GetCurrentDirectory() + "Commands";
+        System.IO.FileStream file;
+
+
         public FormTextEditor()
         {
             InitializeComponent();
             graphics = pictureBoxTextEditor.CreateGraphics();
+            
         }
 
         private void FormTextEditor_Load(object sender, EventArgs e)
@@ -80,6 +87,17 @@ namespace ColoringBook
             graphics.DrawString($"{commands.Count + 1}. ", font, brush, new Point(10, commands.Count * 50));
 
         }
+        //-----------------------------------------------
+        void DrawArrow(Image arrow, Rectangle rect)
+        {
+            graphics.DrawImage(arrow, rect);
+            var sw = new StreamWriter(path);
+            sw.WriteLine();
+            sw.Close();
+        }
+
+
+        //-------------------------------------------------
     }
 }
 

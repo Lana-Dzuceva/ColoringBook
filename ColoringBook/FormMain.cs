@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -21,7 +23,7 @@ namespace ColoringBook
         bool modeMouse = false;
         //Color[] usedColors = { Color.Red, Color.Yellow, Color.Purple };
         string[] usedColors = { "Red", "Yellow", "Purple", "Blue" };
-        
+
         Dictionary<string, string> dictColors = new Dictionary<string, string>
             {
                 { "R", "Red" },
@@ -42,11 +44,10 @@ namespace ColoringBook
         Color baseColor = Color.Orange;
 
         //____всё что касается рисования на втором холсте______
-        Graphics graphics2;
         Image right = Image.FromFile("right.png"),
-        left = Image.FromFile("left.png"),
-        down = Image.FromFile("down.png"),
-        up = Image.FromFile("up.png");
+       left = Image.FromFile("left.png"),
+       down = Image.FromFile("down.png"),
+       up = Image.FromFile("up.png");
 
         int[] coordsCommands = { 0, 0 };
         bool IsWriting = false;
@@ -56,24 +57,24 @@ namespace ColoringBook
 
         //Запись в файл
         string path = System.IO.Directory.GetCurrentDirectory() + "Commands";
+        string path2 = System.IO.Directory.GetCurrentDirectory();
         System.IO.FileStream file;
         //
 
         public FormColoringBook()
         {
             InitializeComponent();
-            graphics = pictureBoxHolst.CreateGraphics();
+            graphics = pictureBoxCanvas.CreateGraphics();
             KeyPreview = true;
-            graphics2 = pictureBoxCommands.CreateGraphics();
 
         }
         private void FormColoringBook_Load(object sender, EventArgs e)
         {
             InitializeField();//Гадины
-            pictureBoxHolst.Refresh();
-            //pictureBoxHolst.Focus();//ПОЧЕМУ ТЫ НЕ РАБОТАЕШЬ?!
+            pictureBoxCanvas.Refresh();
+            //pictureBoxCanvas.Focus();//ПОЧЕМУ ТЫ НЕ РАБОТАЕШЬ?!
 
-            pictureBoxHolst.Focus();
+            pictureBoxCanvas.Focus();
             //buttonStartStopWriting.TabStop = false;
             //buttonDraw.TabStop = false;
             //buttonClearCommands.TabStop = false;
@@ -81,10 +82,11 @@ namespace ColoringBook
             file = System.IO.File.Create(path);
             file.Close();
             //var sr = new StreamReader(path);
-            
+
         }
         private void InitializeField()
         {
+            pictureBoxCanvas.Image = right;
             for (int i = 0; i < size; i++)
             {
                 var tempSize = size + Convert.ToInt32(i % 2 == 0);
@@ -157,14 +159,9 @@ namespace ColoringBook
         {
             if (curPoint[0] + 1 < fieldCoords[curPoint[1]].GetLength(0))
             {
-                if (IsWriting)
-                {
-                    DrawArrow(right, rect);
-                }
-                else
-                {
-                    curPoint[0]++;
-                }
+
+                curPoint[0]++;
+
             }
         }
 
@@ -172,14 +169,9 @@ namespace ColoringBook
         {
             if (curPoint[0] - 1 >= 0)
             {
-                if (IsWriting)
-                {
-                    DrawArrow(left, rect);
-                }
-                else
-                {
-                    curPoint[0]--;
-                }
+
+                curPoint[0]--;
+
             }
         }
 
@@ -187,28 +179,17 @@ namespace ColoringBook
         {
             if (IsLongRow() && curPoint[0] != 0 && curPoint[1] != 0)
             {
-                if (IsWriting)
-                {
-                    DrawArrow(up, rect);
-                }
-                else
-                {
-                    //curPoint[0] = Max(curPoint[0] - 1, 0);
-                    //curPoint[1] = Max(curPoint[1] - 1, 0);
-                    curPoint[0]--;
-                    curPoint[1]--;
-                }
+
+                //curPoint[0] = Max(curPoint[0] - 1, 0);
+                //curPoint[1] = Max(curPoint[1] - 1, 0);
+                curPoint[0]--;
+                curPoint[1]--;
+
             }
             else if (IsShortRow() && curPoint[1] - 1 >= 0)
             {
-                if (IsWriting)
-                {
-                    DrawArrow(up, rect);
-                }
-                else
-                {
-                    curPoint[1]--;
-                }
+                curPoint[1]--;
+
             }
         }
 
@@ -217,45 +198,21 @@ namespace ColoringBook
 
             if (IsLongRow() && curPoint[0] != size)
             {
-                if (IsWriting)
-                {
-                    DrawArrow(down, rect);
-                    return;
-                }
-                else
-                {
+                
                     curPoint[1]++;
-                }
+                
             }
             else if (IsShortRow())
             {
-                if (IsWriting)
-                {
-                    DrawArrow(down, rect);
-                    return;
-                }
-                else
-                {
+                
                     curPoint[0] = Min(curPoint[0] + 1, size);
                     curPoint[1] = Min(curPoint[1] + 1, size - 1);
-                }
+                
             }
 
         }
-        void UpdateCoordsOfCommands()
-        {
-            coordsCommands[0] += (sizeCommand + 10) * Convert.ToInt32((coordsCommands[1] + 50) >= (pictureBoxCommands.Height + sizeCommand));
-            coordsCommands[1] = (coordsCommands[1] + sizeCommand) % (pictureBoxCommands.Height + sizeCommand);
 
-        }
-        void DrawArrow(Image arrow, Rectangle rect)
-        {
-            graphics2.DrawImage(arrow, rect);
-            UpdateCoordsOfCommands();
-            var sw = new StreamWriter(path);
-            sw.WriteLine();
-            sw.Close();
-        }
+
         private void FormColoringBook_KeyDown(object sender, KeyEventArgs e)
         {
             var rect = new Rectangle(coordsCommands[0], coordsCommands[1], 50, 50);
@@ -292,9 +249,7 @@ namespace ColoringBook
                     DrawHoneyComb(radiusCell, temp[0], temp[1], Color.FromName(dictColors[e.KeyCode.ToString()]));
                     fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(dictColors[e.KeyCode.ToString()]);
                     //var tempPen = new Pen(Color.FromName(dictColors[e.KeyCode.ToString()]));
-                    graphics2.DrawRectangle(pen, rect);
-                    graphics2.FillRectangle(new SolidBrush(Color.FromName(dictColors[e.KeyCode.ToString()])), rect);
-                    UpdateCoordsOfCommands(); break;
+                    break;
 
                 default:
                     break;
@@ -396,6 +351,38 @@ namespace ColoringBook
             var hmm = new FormTextEditor();
             hmm.Show();
             hmm.Refresh();
+        }
+
+        private void labelSave_Click(object sender, EventArgs e)
+        {
+            //GraphicsState a = graphics.Save();
+            //pictureBoxCanvas.Image.Save(path2 + "hmm.jpg", ImageFormat.Jpeg);
+            //graphics.Clear(BackColor);
+            //var aaaa= pictureBoxCanvas.Image;
+            //aaaa.Save("hmm.png", ImageFormat.Png);
+            Bitmap bm = new Bitmap(this.Width, this.Height);
+            pictureBoxCanvas.DrawToBitmap(bm, new Rectangle(0, 0, this.Width, this.Height));
+            //this.DrawToBitmap(bm, new Rectangle(0, 0, bm.Width, bm.Height));
+
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                bm.Save(sfd.FileName);
+            }
+            //var bbbbb = pictureBoxClear.Image;
+            //bbbbb.Save("bbbbb.png", ImageFormat.Png);
+            //Bitmap bmpSave = (Bitmap)pictureBoxCanvas.Image;
+            //SaveFileDialog sfd = new SaveFileDialog
+            //{
+            //    DefaultExt = "bmp",
+            //    Filter = "Image files (*.bmp)|*.bmp|All files (*.*)|*.*",
+            //};
+            //if (sfd.ShowDialog() == DialogResult.OK)
+
+            //    bmpSave.Save(sfd.FileName, ImageFormat.Bmp);
+
+            MessageBox.Show("L");
         }
 
         private void клавиатураToolStripMenuItem_Click(object sender, EventArgs e)
