@@ -2,29 +2,71 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using static System.Math;
 //var temp = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + @"\hmm.png");
 //var ee = e as MouseEventArgs;
 //var temp = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + @"\hmm.png");
+//pictureBoxCanvas.Refresh();
+//pictureBoxCanvas.Focus();//ПОЧЕМУ ТЫ НЕ РАБОТАЕШЬ?!
+
+//pictureBoxCanvas.Focus();
+//buttonStartStopWriting.TabStop = false;
+//buttonDraw.TabStop = false;
+//buttonClearCommands.TabStop = false;
+
+//file = System.IO.File.Create(path);
+//file.Close();
+//var sr = new StreamReader(path);
+
+//var bbbbb = pictureBoxClear.Image;
+//bbbbb.Save("bbbbb.png", ImageFormat.Png);
+//Bitmap bmpSave = (Bitmap)pictureBoxCanvas.Image;
+//SaveFileDialog sfd = new SaveFileDialog
+//{
+//    DefaultExt = "bmp",
+//    Filter = "Image files (*.bmp)|*.bmp|All files (*.*)|*.*",
+//};
+//if (sfd.ShowDialog() == DialogResult.OK)
+
+//    bmpSave.Save(sfd.FileName, ImageFormat.Bmp);
+//GraphicsState a = graphics.Save();
+//pictureBoxCanvas.Image.Save(path2 + "hmm.jpg", ImageFormat.Jpeg);
+//graphics.Clear(BackColor);
+//var aaaa= pictureBoxCanvas.Image;
+//aaaa.Save("hmm.png", ImageFormat.Png);
+//Bitmap bitmap = new Bitmap ( pictureBoxCanvas.Width, pictureBoxCanvas.Height, graphics );
+//bitmap.Save(path2 + "qqq.bmp");
+//Bitmap bm = new Bitmap(this.Width, this.Height);
+//pictureBoxCanvas.DrawToBitmap(bm, new Rectangle(0, 0, this.Width, this.Height));
+//this.DrawToBitmap(bm, new Rectangle(0, 0, bm.Width, bm.Height));
+
+//Graphics g = Graphics.FromImage(image);
+//Font font = SystemFonts.MessageBoxFont;
+//g.FillRectangle(Brushes.Thistle, new Rectangle(0, 0, image.Width, image.Height));
+//g.DrawString("LANA", font, brush, new Point(10, 10));
+
+//image.Save(path2 + "hmm.png");
+//pictureBoxCanvas.Image = image;
+//pictureBoxCanvas.Image.Save(path2 + "opopop.png");
+
+//SaveFileDialog sfd = new SaveFileDialog();
+
+
 namespace ColoringBook
 {
+
     public partial class FormColoringBook : Form
     {
         int widthCell = 36;
         int heightCell = 32;
         int radiusCell = 20;
-        bool f = false;
         static int size = 10;
-        //static int size = 12;
         bool modeMouse = false;
         //Color[] usedColors = { Color.Red, Color.Yellow, Color.Purple };
         string[] usedColors = { "Red", "Yellow", "Purple", "Blue" };
 
-        Dictionary<string, string> dictColors = new Dictionary<string, string>
+        public Dictionary<string, string> dictColors = new Dictionary<string, string>
             {
                 { "R", "Red" },
                 { "Oem1", "Yellow" },// ";"
@@ -33,6 +75,7 @@ namespace ColoringBook
             { "J", "Orange"}
             };
 
+        Image image = Image.FromFile("right.png");
 
         Color[][] fieldColors = new Color[size][];
         int[][][] fieldCoords = new int[size][][];
@@ -43,50 +86,28 @@ namespace ColoringBook
         SolidBrush brush = new SolidBrush(Color.Orange);
         Color baseColor = Color.Orange;
 
-        //____всё что касается рисования на втором холсте______
-        Image right = Image.FromFile("right.png"),
-       left = Image.FromFile("left.png"),
-       down = Image.FromFile("down.png"),
-       up = Image.FromFile("up.png");
-
-        int[] coordsCommands = { 0, 0 };
-        bool IsWriting = false;
-        int sizeCommand = 50;
-        List<string> commandSequence = new List<string>();
-        //__________________________________________
-
         //Запись в файл
         string path = System.IO.Directory.GetCurrentDirectory() + "Commands";
         string path2 = System.IO.Directory.GetCurrentDirectory();
-        System.IO.FileStream file;
+        //System.IO.FileStream file;
         //
 
         public FormColoringBook()
         {
             InitializeComponent();
-            graphics = pictureBoxCanvas.CreateGraphics();
+            //graphics = pictureBoxCanvas.CreateGraphics();
+            Bitmap bitmap = new Bitmap(image, pictureBoxCanvas.Width, pictureBoxCanvas.Height);
+            image = bitmap;
+            graphics = Graphics.FromImage(image);
             KeyPreview = true;
-
+            StartPosition = FormStartPosition.CenterScreen;
+            graphics.Clear(Color.FromArgb(255, 255, 192));
         }
         private void FormColoringBook_Load(object sender, EventArgs e)
-        {
-            InitializeField();//Гадины
-            pictureBoxCanvas.Refresh();
-            //pictureBoxCanvas.Focus();//ПОЧЕМУ ТЫ НЕ РАБОТАЕШЬ?!
-
-            pictureBoxCanvas.Focus();
-            //buttonStartStopWriting.TabStop = false;
-            //buttonDraw.TabStop = false;
-            //buttonClearCommands.TabStop = false;
-            StartPosition = FormStartPosition.CenterScreen;
-            file = System.IO.File.Create(path);
-            file.Close();
-            //var sr = new StreamReader(path);
-
-        }
+        { }
         private void InitializeField()
         {
-            pictureBoxCanvas.Image = right;
+
             for (int i = 0; i < size; i++)
             {
                 var tempSize = size + Convert.ToInt32(i % 2 == 0);
@@ -102,11 +123,11 @@ namespace ColoringBook
                 }
             }
             UpdateFocusHoneyComb();
-
         }
 
         private void DrawHoneyComb(int r, int x, int y, Color color)
         {
+
 
             var hexagon = new PointF[6];
             for (int a = 0; a < 6; a++)
@@ -120,11 +141,26 @@ namespace ColoringBook
                     x + r * (float)Math.Cos(angle_rad),
                     y + r * (float)Math.Sin(angle_rad));
             }
+            pen.Color = Color.FromArgb(51, 35, 27);
             graphics.DrawPolygon(pen, hexagon);
-            brush.Color = color;
-            graphics.FillPolygon(brush, hexagon);
+            using (PathGradientBrush br = new PathGradientBrush(hexagon))
+            {
+                br.CenterPoint = new PointF(x, y);
+                br.CenterColor = Color.Bisque;
+                br.SurroundColors = new Color[] {
+                 baseColor};
 
+                // Fill the star.
+                graphics.FillPolygon(br, hexagon);
+            }
 
+            // Outline the star.
+            //e.Graphics.DrawPolygon(Pens.Black, pts)
+
+            
+            //brush.Color = color;
+            //graphics.FillPolygon(brush, hexagon);
+            UpdateCanvas();
         }
 
         int[] GetCoordsFromPosition(int row, int column)
@@ -145,6 +181,7 @@ namespace ColoringBook
             var y = temp[0];
             RectangleF rect = new RectangleF(y - radiusCell + 5, x - radiusCell + 5, w * k, w * k);
             graphics.DrawEllipse(pen, rect);
+            UpdateCanvas();
         }
 
         bool IsLongRow()
@@ -155,67 +192,51 @@ namespace ColoringBook
         {
             return fieldCoords[curPoint[1]].GetLength(0) == size;
         }
-        void MoveRight(Rectangle rect)
+        void MoveRight()
         {
             if (curPoint[0] + 1 < fieldCoords[curPoint[1]].GetLength(0))
             {
-
                 curPoint[0]++;
-
             }
         }
 
-        void MoveLeft(Rectangle rect)
+        void MoveLeft()
         {
             if (curPoint[0] - 1 >= 0)
             {
-
                 curPoint[0]--;
-
             }
         }
 
-        void MoveUp(Rectangle rect)
+        void MoveUp()
         {
             if (IsLongRow() && curPoint[0] != 0 && curPoint[1] != 0)
             {
-
-                //curPoint[0] = Max(curPoint[0] - 1, 0);
-                //curPoint[1] = Max(curPoint[1] - 1, 0);
                 curPoint[0]--;
                 curPoint[1]--;
-
             }
             else if (IsShortRow() && curPoint[1] - 1 >= 0)
             {
                 curPoint[1]--;
-
             }
         }
 
-        void MoveDown(Rectangle rect)
+        void MoveDown()
         {
-
             if (IsLongRow() && curPoint[0] != size)
             {
-                
-                    curPoint[1]++;
-                
+                curPoint[1]++;
             }
-            else if (IsShortRow())
+            else if (IsShortRow() && curPoint[1] != size - 1)
             {
-                
-                    curPoint[0] = Min(curPoint[0] + 1, size);
-                    curPoint[1] = Min(curPoint[1] + 1, size - 1);
-                
+                curPoint[0] = Min(curPoint[0] + 1, size);
+                curPoint[1] = Min(curPoint[1] + 1, size - 1);
             }
-
         }
 
 
         private void FormColoringBook_KeyDown(object sender, KeyEventArgs e)
         {
-            var rect = new Rectangle(coordsCommands[0], coordsCommands[1], 50, 50);
             //MessageBox.Show(e.KeyCode.ToString());
             if (modeMouse)
             {
@@ -225,19 +246,19 @@ namespace ColoringBook
             switch (e.KeyCode)
             {
                 case Keys.Right:
-                    MoveRight(rect);
+                    MoveRight();
                     break;
 
                 case Keys.Up:
-                    MoveUp(rect);
+                    MoveUp();
                     break;
 
                 case Keys.Down:
-                    MoveDown(rect);
+                    MoveDown();
                     break;
 
                 case Keys.Left:
-                    MoveLeft(rect);
+                    MoveLeft();
                     break;
 
                 case Keys.R:
@@ -245,10 +266,8 @@ namespace ColoringBook
                 case Keys.C:
                 case Keys.J:
                 case Keys.OemSemicolon://";"
-                    var temp = GetCoordsFromPosition(curPoint[1], curPoint[0]);
-                    DrawHoneyComb(radiusCell, temp[0], temp[1], Color.FromName(dictColors[e.KeyCode.ToString()]));
-                    fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(dictColors[e.KeyCode.ToString()]);
                     //var tempPen = new Pen(Color.FromName(dictColors[e.KeyCode.ToString()]));
+                    PaintCell(e.KeyCode.ToString());
                     break;
 
                 default:
@@ -256,14 +275,19 @@ namespace ColoringBook
             }
             UpdateFocusHoneyComb();
         }
-
+        void PaintCell(string color)
+        {
+            var temp = GetCoordsFromPosition(curPoint[1], curPoint[0]);
+            DrawHoneyComb(radiusCell, temp[0], temp[1], Color.FromName(dictColors[color]));
+            fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(dictColors[color]);
+        }
         private void pictureBoxColor_Click(object sender, EventArgs e)
         {
             if (!modeMouse)
             {
                 return;
             }
-            var a = sender as PictureBox;
+            //var a = sender as PictureBox;
             PictureBox pb = (PictureBox)sender;
             var colorName = pb.Name.Split('_')[1];
             if (Array.IndexOf(usedColors, colorName) != -1)
@@ -282,13 +306,7 @@ namespace ColoringBook
         }
         private void pictureBoxHolst_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!f)
-            {
-                InitializeField();
-                f = true;
-            }
-
-            else if (modeMouse)
+            if (modeMouse)
             {
                 for (int i = 0; i < size; i++)
                 {
@@ -306,24 +324,6 @@ namespace ColoringBook
             }
         }
 
-
-        private void labelStartStopWriting_Click(object sender, EventArgs e)
-        {
-            if (IsWriting)
-            {
-                labelStartStopWriting.Text = "Начать запись";
-            }
-            else
-            {
-                labelStartStopWriting.Text = "Остановить запись";
-            }
-            IsWriting = !IsWriting;
-        }
-
-        private void labelDraw_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void FormColoringBook_LocationChanged(object sender, EventArgs e)
         {
@@ -348,41 +348,19 @@ namespace ColoringBook
 
         private void редакторКодаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var hmm = new FormTextEditor();
+            var hmm = new FormTextEditor(this);
             hmm.Show();
             hmm.Refresh();
         }
 
         private void labelSave_Click(object sender, EventArgs e)
         {
-            //GraphicsState a = graphics.Save();
-            //pictureBoxCanvas.Image.Save(path2 + "hmm.jpg", ImageFormat.Jpeg);
-            //graphics.Clear(BackColor);
-            //var aaaa= pictureBoxCanvas.Image;
-            //aaaa.Save("hmm.png", ImageFormat.Png);
-            Bitmap bm = new Bitmap(this.Width, this.Height);
-            pictureBoxCanvas.DrawToBitmap(bm, new Rectangle(0, 0, this.Width, this.Height));
-            //this.DrawToBitmap(bm, new Rectangle(0, 0, bm.Width, bm.Height));
 
-            SaveFileDialog sfd = new SaveFileDialog();
-
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                bm.Save(sfd.FileName);
-            }
-            //var bbbbb = pictureBoxClear.Image;
-            //bbbbb.Save("bbbbb.png", ImageFormat.Png);
-            //Bitmap bmpSave = (Bitmap)pictureBoxCanvas.Image;
-            //SaveFileDialog sfd = new SaveFileDialog
-            //{
-            //    DefaultExt = "bmp",
-            //    Filter = "Image files (*.bmp)|*.bmp|All files (*.*)|*.*",
-            //};
             //if (sfd.ShowDialog() == DialogResult.OK)
-
-            //    bmpSave.Save(sfd.FileName, ImageFormat.Bmp);
-
-            MessageBox.Show("L");
+            //{
+            //    bm.Save(sfd.FileName);
+            //}
+            pictureBoxCanvas.Image.Save("please.png");
         }
 
         private void клавиатураToolStripMenuItem_Click(object sender, EventArgs e)
@@ -400,5 +378,50 @@ namespace ColoringBook
             var temp = GetCoordsFromPosition(curPoint[0], curPoint[1]);
             DrawHoneyComb(radiusCell, temp[0], temp[1], baseColor);
         }
+        private void FormColoringBook_Shown(object sender, EventArgs e)
+        {
+            InitializeField();
+
+            UpdateCanvas();
+        }
+
+        public void DrawFromCommands()
+        {
+            foreach (var command in Commands.commands)
+            {
+                var temp = command.Split();
+                try
+                {
+                    UnfocusHoneyComb();
+                    switch (temp[1])
+                    {
+
+                        case "Right": MoveRight(); break;
+                        case "Left": MoveLeft(); break;
+                        case "Down": MoveDown(); break;
+                        case "Up": MoveUp(); break;
+                        default:
+                            //MessageBox.Show(temp[1]);
+                            PaintCell(temp[1]);
+                            break;
+
+                    }
+
+                    UpdateFocusHoneyComb();
+                    //UpdateCanvas();
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Ты сломал матрицу!");
+                }
+
+            }
+        }
+        void UpdateCanvas()
+        {
+            pictureBoxCanvas.Image = image;
+        }
+
     }
 }
