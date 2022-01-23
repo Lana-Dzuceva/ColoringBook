@@ -148,16 +148,12 @@ namespace ColoringBook
                 br.CenterPoint = new PointF(x, y);
                 br.CenterColor = Color.Bisque;
                 br.SurroundColors = new Color[] {
-                 baseColor};
+                 color};
 
-                // Fill the star.
+                
                 graphics.FillPolygon(br, hexagon);
             }
 
-            // Outline the star.
-            //e.Graphics.DrawPolygon(Pens.Black, pts)
-
-            
             //brush.Color = color;
             //graphics.FillPolygon(brush, hexagon);
             UpdateCanvas();
@@ -270,6 +266,9 @@ namespace ColoringBook
                     PaintCell(e.KeyCode.ToString());
                     break;
 
+                case Keys.Space:
+                    InitializeField();
+                    break;
                 default:
                     break;
             }
