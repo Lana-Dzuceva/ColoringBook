@@ -105,7 +105,6 @@ namespace ColoringBook
         { }
         private void InitializeField()
         {
-
             for (int i = 0; i < size; i++)
             {
                 var tempSize = size + Convert.ToInt32(i % 2 == 0);
@@ -122,11 +121,9 @@ namespace ColoringBook
             }
             UpdateFocusHoneyComb();
         }
-
+        // отрисорвка клетки
         private void DrawHoneyComb(int r, int x, int y, Color color)
         {
-
-
             var hexagon = new PointF[6];
             for (int a = 0; a < 6; a++)
             {
@@ -157,16 +154,18 @@ namespace ColoringBook
             //graphics.FillPolygon(brush, hexagon);
             UpdateCanvas();
         }
-
+        // возвращает координаты центра
         int[] GetCoordsFromPosition(int row, int column)
         {
             return fieldCoords[row][column];
         }
+        // убирает фокус с клетки
         void UnfocusHoneyComb()
         {
             var temp = GetCoordsFromPosition(curPoint[1], curPoint[0]);
             DrawHoneyComb(radiusCell, temp[0], temp[1], fieldColors[curPoint[1]][curPoint[0]]);
         }
+        // отрисовка кружка на клетке с фокусом
         private void UpdateFocusHoneyComb()
         {
             var w = radiusCell * 2;
@@ -187,6 +186,8 @@ namespace ColoringBook
         {
             return fieldCoords[curPoint[1]].GetLength(0) == size;
         }
+
+        // функции отвечающие за передвижение клетки, то есть смещение ее координат
         void MoveRight()
         {
             if (curPoint[0] + 1 < fieldCoords[curPoint[1]].GetLength(0))
@@ -229,7 +230,7 @@ namespace ColoringBook
             }
         }
 
-
+        // отвечает за все нажатия клавиш и привязанные к ним события(перемещение, закрашивание, стирание)
         private void FormColoringBook_KeyDown(object sender, KeyEventArgs e)
         {
             if (modeMouse)
@@ -272,12 +273,14 @@ namespace ColoringBook
             }
             UpdateFocusHoneyComb();
         }
+        
         void PaintCell(string color)
         {
             var temp = GetCoordsFromPosition(curPoint[1], curPoint[0]);
             DrawHoneyComb(radiusCell, temp[0], temp[1], Color.FromName(dictColors[color]));
             fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(dictColors[color]);
         }
+        //кликание на прямоугольники с цветами
         private void pictureBoxColor_Click(object sender, EventArgs e)
         {
             if (!modeMouse)
@@ -294,12 +297,13 @@ namespace ColoringBook
                 fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(colorName);
             }
         }
-
+        // проверка на то, что человек кликнул именно на эту клетку
         bool IsClickedOnHoneyComb(int x, int y, int x2, int y2)
         {
             var apoth = Sqrt(3) / 2 * radiusCell;
             return Sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2)) <= apoth;
         }
+        // поиск клетки на которую кликнул человек
         private void pictureBoxHolst_MouseDown(object sender, MouseEventArgs e)
         {
             if (modeMouse)
@@ -320,7 +324,7 @@ namespace ColoringBook
             }
         }
 
-
+        // функция отвечающее за то, чтобы форма не выходила за пределы монитора
         private void FormColoringBook_LocationChanged(object sender, EventArgs e)
         {
             Size size = SystemInformation.PrimaryMonitorSize;
@@ -348,7 +352,7 @@ namespace ColoringBook
             hmm.Show();
             hmm.Refresh();
         }
-
+        // Сохранение картинки
         private void labelSave_Click(object sender, EventArgs e)
         {
             // можно реализовать нормальное сохранение через файловые менеджеры
@@ -377,10 +381,9 @@ namespace ColoringBook
         private void FormColoringBook_Shown(object sender, EventArgs e)
         {
             InitializeField();
-
             UpdateCanvas();
         }
-
+        // выполнение команд, написанных в текстовом редакторе
         public void DrawFromCommands()
         {
             foreach (var command in Commands.commands)
@@ -411,6 +414,7 @@ namespace ColoringBook
 
             }
         }
+        // обновляем картинку поля
         void UpdateCanvas()
         {
             pictureBoxCanvas.Image = image;

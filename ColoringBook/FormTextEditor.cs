@@ -63,8 +63,6 @@ namespace ColoringBook
         }
 
 
-
-
         private void FormTextEditor_Shown(object sender, EventArgs e)
         {
             ReDrawCommands();
@@ -76,6 +74,7 @@ namespace ColoringBook
             formMain.Focus();
         }
 
+        // обрабатываем команды с клавиатуры, которые отрисовываются в виде последовательности ходов 
         private void FormTextEditor_KeyDown(object sender, KeyEventArgs e)
         {
             var rect = new Rectangle(cellSize + (Commands.commands.Count / 8) * (cellSize * 3 + 10), Commands.commands.Count % 8 * cellSize, cellSize, cellSize);
@@ -119,11 +118,15 @@ namespace ColoringBook
                     break;
             }
         }
+        // Тут у меня закончилась фантазия на названия функций, так как эта функция делает два совершенно разных дела,
+        // но привязанных к схожим процессам. Так как мне лень писать дважды одно и тоже я объединила их в мини функцию.
         void someActions(string kc)
         {
             Commands.commands.Add("move " + kc);
             graphics.DrawString($"{ Commands.commands.Count + 1}. ", font, brush, new Point(10 + (Commands.commands.Count / 8) * cellSize * 3, (Commands.commands.Count % 8) * cellSize));
         }
+        // Перерисовка команд при закрытии и повторном открытии.
+        // Пока что эта функция работает неправильно, поэтому я ее не использую там где она действительно нужна.
         void ReDrawCommands()
         {
             graphics.DrawString($"{1}. ", font, brush, new Point(10, 0));
@@ -142,11 +145,12 @@ namespace ColoringBook
                 graphics.DrawString($"{i + 1}. " + Commands.commands[i], font, brush, new Point(10, i * cellSize));
             }
         }
-
+        // Отрисовка стрелы
         void DrawArrow(Image arrow, Rectangle rect)
         {
             graphics.DrawImage(arrow, rect);
         }
+        // Отрисовка буквы(команды закрашивания)
         void DrawLetter()
         {
             if (Commands.commands.Count % 8 != 0)
@@ -159,7 +163,7 @@ namespace ColoringBook
                 graphics.DrawString($"{dictColors[Commands.commands[Commands.commands.Count - 1].Split()[1]]}", font, brush, new Point(cellSize + (Commands.commands.Count - 1) / 8 * (cellSize * 3 + 10), (Commands.commands.Count - 1) % 8 * cellSize));
             }
         }
-
+        // На закрытие формы я полностью очищаю список команд, так как функция перерисовки ( ReDrawCommands ), пока не работает
         private void FormTextEditor_FormClosed(object sender, FormClosedEventArgs e)
         {
             Commands.commands.Clear();
