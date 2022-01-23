@@ -34,12 +34,8 @@ namespace ColoringBook
         SolidBrush brush = new SolidBrush(Color.Black);
         Font font = new System.Drawing.Font("Comic Sans MS", 25F);
         Graphics graphics;
-        //List<string> commands = new List<string>();
 
         string path = System.IO.Directory.GetCurrentDirectory();
-        //string commandsPath;
-        //System.IO.FileStream file;
-
         int cellSize = 50;
 
         Dictionary<string, Image> arrows = new Dictionary<string, Image>
@@ -63,7 +59,6 @@ namespace ColoringBook
         {
             InitializeComponent();
             graphics = pictureBoxTextEditor.CreateGraphics();
-            //commandsPath = System.IO.Path.Combine(path, "Commands.txt");
             formMain = f_;
         }
 
@@ -72,18 +67,11 @@ namespace ColoringBook
 
         private void FormTextEditor_Shown(object sender, EventArgs e)
         {
-            //graphics.DrawString($"{1}. ", font, brush, new Point(10, 0));
-            Draw();
-        }
-
-        private void FormTextEditor_Paint(object sender, PaintEventArgs e)
-        {
-            //graphics.DrawString("qqq", font, brush, new Point(0, 0)); 
+            ReDrawCommands();
         }
 
         private void нарисоватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //formMain.Show();
             formMain.DrawFromCommands();
             formMain.Focus();
         }
@@ -119,16 +107,13 @@ namespace ColoringBook
                         }
                         else
                         {
-                            //MessageBox.Show(rect.X.ToString() + " " + rect.Y.ToString());
-                            rect = new Rectangle(cellSize + (Commands.commands.Count- 1) / 8 * (cellSize * 3 + 10), (Commands.commands.Count - 1) % 8 * cellSize, cellSize, cellSize);
-
+                            rect = new Rectangle(cellSize + (Commands.commands.Count - 1) / 8 * (cellSize * 3 + 10), (Commands.commands.Count - 1) % 8 * cellSize, cellSize, cellSize);
                         }
                         Commands.commands.RemoveAt(Commands.commands.Count - 1);
-                        
+
                         graphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 255, 192)), rect);
                     }
                     catch { }
-
                     break;
                 default:
                     break;
@@ -139,7 +124,7 @@ namespace ColoringBook
             Commands.commands.Add("move " + kc);
             graphics.DrawString($"{ Commands.commands.Count + 1}. ", font, brush, new Point(10 + (Commands.commands.Count / 8) * cellSize * 3, (Commands.commands.Count % 8) * cellSize));
         }
-        void Draw()
+        void ReDrawCommands()
         {
             graphics.DrawString($"{1}. ", font, brush, new Point(10, 0));
             for (int i = 0; i < Commands.commands.Count; i++)
@@ -156,9 +141,8 @@ namespace ColoringBook
                 }
                 graphics.DrawString($"{i + 1}. " + Commands.commands[i], font, brush, new Point(10, i * cellSize));
             }
-            //graphics.DrawString($"{ Commands.commands.Count + 1}. ", font, brush, new Point(10, Commands.commands.Count * cellSize));
         }
-        //-----------------------------------------------
+
         void DrawArrow(Image arrow, Rectangle rect)
         {
             graphics.DrawImage(arrow, rect);
@@ -181,8 +165,6 @@ namespace ColoringBook
             Commands.commands.Clear();
         }
 
-
-        //-------------------------------------------------
     }
 
 

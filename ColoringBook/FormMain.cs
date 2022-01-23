@@ -75,7 +75,7 @@ namespace ColoringBook
             { "J", "Orange"}
             };
 
-        Image image = Image.FromFile("right.png");
+        Image image = Image.FromFile("right.png");//пустышка, которая станет основой для холста
 
         Color[][] fieldColors = new Color[size][];
         int[][][] fieldCoords = new int[size][][];
@@ -86,16 +86,14 @@ namespace ColoringBook
         SolidBrush brush = new SolidBrush(Color.Orange);
         Color baseColor = Color.Orange;
 
-        //Запись в файл
-        string path = System.IO.Directory.GetCurrentDirectory() + "Commands";
-        string path2 = System.IO.Directory.GetCurrentDirectory();
-        //System.IO.FileStream file;
-        //
+        //Запись в файл.........в данный момент оно не нужно, но в будущем модет пригодится
+        //string path = System.IO.Directory.GetCurrentDirectory() + "Commands";
+        //string path2 = System.IO.Directory.GetCurrentDirectory();
+        // 
 
         public FormColoringBook()
         {
             InitializeComponent();
-            //graphics = pictureBoxCanvas.CreateGraphics();
             Bitmap bitmap = new Bitmap(image, pictureBoxCanvas.Width, pictureBoxCanvas.Height);
             image = bitmap;
             graphics = Graphics.FromImage(image);
@@ -132,6 +130,7 @@ namespace ColoringBook
             var hexagon = new PointF[6];
             for (int a = 0; a < 6; a++)
             {
+                // шестиугольник но стоящий на основании
                 //shape[a] = new PointF(
                 //    x + r * (float)Math.Cos(a * 45 * Math.PI / 180f),
                 //    y + r * (float)Math.Sin(a * 45 * Math.PI / 180f));
@@ -153,7 +152,7 @@ namespace ColoringBook
                 
                 graphics.FillPolygon(br, hexagon);
             }
-
+            //для простой заливки
             //brush.Color = color;
             //graphics.FillPolygon(brush, hexagon);
             UpdateCanvas();
@@ -233,7 +232,6 @@ namespace ColoringBook
 
         private void FormColoringBook_KeyDown(object sender, KeyEventArgs e)
         {
-            //MessageBox.Show(e.KeyCode.ToString());
             if (modeMouse)
             {
                 return;
@@ -286,7 +284,6 @@ namespace ColoringBook
             {
                 return;
             }
-            //var a = sender as PictureBox;
             PictureBox pb = (PictureBox)sender;
             var colorName = pb.Name.Split('_')[1];
             if (Array.IndexOf(usedColors, colorName) != -1)
@@ -354,12 +351,12 @@ namespace ColoringBook
 
         private void labelSave_Click(object sender, EventArgs e)
         {
-
+            // можно реализовать нормальное сохранение через файловые менеджеры
             //if (sfd.ShowDialog() == DialogResult.OK)
             //{
             //    bm.Save(sfd.FileName);
             //}
-            pictureBoxCanvas.Image.Save("please.png");
+            pictureBoxCanvas.Image.Save("image.png");
         }
 
         private void клавиатураToolStripMenuItem_Click(object sender, EventArgs e)
@@ -400,15 +397,12 @@ namespace ColoringBook
                         case "Down": MoveDown(); break;
                         case "Up": MoveUp(); break;
                         default:
-                            //MessageBox.Show(temp[1]);
                             PaintCell(temp[1]);
                             break;
 
                     }
 
                     UpdateFocusHoneyComb();
-                    //UpdateCanvas();
-
                 }
                 catch (Exception)
                 {
