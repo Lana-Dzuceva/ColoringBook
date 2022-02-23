@@ -4,6 +4,7 @@ namespace ColoringBook
 {
     static internal class Commands
     {
-        public static List<string> commands = new List<string>();
+
+        public static List<(string, string)> commands = new List<(string, string)>();
     }
 }

@@ -48,11 +48,13 @@ namespace ColoringBook
 
         Dictionary<string, string> dictColors = new Dictionary<string, string>
         {
-             { "R", "К" },
-                { "Oem1", "Ж" },// ";"
-                { "A", "Ф" },
-                { "C", "С" },
-            { "J", "О"}
+            { "R", "К" },
+            { "Oem1", "Ж" },// ";"
+            { "A", "Ф" },
+            { "C", "С" },
+            { "J", "О"},
+            {"Oemcomma", "Б" },
+            {"P", "З" }
         };
 
         public FormTextEditor(FormColoringBook f_)
@@ -93,6 +95,8 @@ namespace ColoringBook
                 case Keys.C:
                 case Keys.J:
                 case Keys.OemSemicolon://";"
+                case Keys.P:
+                case Keys.Oemcomma:
                     someActions(e.KeyCode.ToString());
                     DrawLetter();
                     break;
@@ -122,7 +126,7 @@ namespace ColoringBook
         // но привязанных к схожим процессам. Так как мне лень писать дважды одно и тоже я объединила их в мини функцию.
         void someActions(string kc)
         {
-            Commands.commands.Add("move " + kc);
+            Commands.commands.Add(("move ", kc));
             graphics.DrawString($"{ Commands.commands.Count + 1}. ", font, brush, new Point(10 + (Commands.commands.Count / 8) * cellSize * 3, (Commands.commands.Count % 8) * cellSize));
         }
         // Перерисовка команд при закрытии и повторном открытии.
@@ -132,11 +136,11 @@ namespace ColoringBook
             graphics.DrawString($"{1}. ", font, brush, new Point(10, 0));
             for (int i = 0; i < Commands.commands.Count; i++)
             {
-                var cmd = Commands.commands[i].Split();
-                if (cmd[0] == "move")
+                (var type, var cmd) = Commands.commands[i];
+                if (type == "move")
                 {
                     var rect = new Rectangle(cellSize, (i + 1) * cellSize, cellSize, cellSize);
-                    graphics.DrawImage(arrows[cmd[1]], rect);
+                    graphics.DrawImage(arrows[cmd], rect);
                 }
                 else
                 {
@@ -155,12 +159,12 @@ namespace ColoringBook
         {
             if (Commands.commands.Count % 8 != 0)
             {
-                graphics.DrawString($"{dictColors[Commands.commands[Commands.commands.Count - 1].Split()[1]]}", font, brush, new Point(cellSize + Commands.commands.Count / 8 * (cellSize * 3 + 10), Commands.commands.Count % 8 * cellSize - cellSize));
+                graphics.DrawString($"{dictColors[Commands.commands[Commands.commands.Count - 1].Item2]}", font, brush, new Point(cellSize + Commands.commands.Count / 8 * (cellSize * 3 + 10), Commands.commands.Count % 8 * cellSize - cellSize));
 
             }
             else
             {
-                graphics.DrawString($"{dictColors[Commands.commands[Commands.commands.Count - 1].Split()[1]]}", font, brush, new Point(cellSize + (Commands.commands.Count - 1) / 8 * (cellSize * 3 + 10), (Commands.commands.Count - 1) % 8 * cellSize));
+                graphics.DrawString($"{dictColors[Commands.commands[Commands.commands.Count - 1].Item2]}", font, brush, new Point(cellSize + (Commands.commands.Count - 1) / 8 * (cellSize * 3 + 10), (Commands.commands.Count - 1) % 8 * cellSize));
             }
         }
         // На закрытие формы я полностью очищаю список команд, так как функция перерисовки ( ReDrawCommands ), пока не работает

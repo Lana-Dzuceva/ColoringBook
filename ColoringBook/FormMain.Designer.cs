@@ -46,6 +46,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pictureBox_Green = new System.Windows.Forms.PictureBox();
+            this.pictureBox_White = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Blue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Purple)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Yellow)).BeginInit();
@@ -53,13 +57,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCanvas)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Green)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_White)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox_Blue
             // 
             this.pictureBox_Blue.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox_Blue.BackColor = System.Drawing.Color.Blue;
-            this.pictureBox_Blue.Location = new System.Drawing.Point(622, 172);
+            this.pictureBox_Blue.Location = new System.Drawing.Point(622, 228);
             this.pictureBox_Blue.Name = "pictureBox_Blue";
             this.pictureBox_Blue.Size = new System.Drawing.Size(100, 50);
             this.pictureBox_Blue.TabIndex = 4;
@@ -70,7 +76,7 @@
             // 
             this.pictureBox_Purple.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox_Purple.BackColor = System.Drawing.Color.Purple;
-            this.pictureBox_Purple.Location = new System.Drawing.Point(622, 228);
+            this.pictureBox_Purple.Location = new System.Drawing.Point(622, 284);
             this.pictureBox_Purple.Name = "pictureBox_Purple";
             this.pictureBox_Purple.Size = new System.Drawing.Size(100, 50);
             this.pictureBox_Purple.TabIndex = 3;
@@ -104,7 +110,7 @@
             // 
             this.pictureBoxClear.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBoxClear.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxClear.Image")));
-            this.pictureBoxClear.Location = new System.Drawing.Point(622, 335);
+            this.pictureBoxClear.Location = new System.Drawing.Point(622, 439);
             this.pictureBoxClear.Name = "pictureBoxClear";
             this.pictureBoxClear.Size = new System.Drawing.Size(100, 69);
             this.pictureBoxClear.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -199,7 +205,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 25F);
-            this.label3.Location = new System.Drawing.Point(575, 228);
+            this.label3.Location = new System.Drawing.Point(575, 284);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 47);
             this.label3.TabIndex = 13;
@@ -210,7 +216,7 @@
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Comic Sans MS", 25F);
-            this.label4.Location = new System.Drawing.Point(577, 175);
+            this.label4.Location = new System.Drawing.Point(577, 231);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 47);
             this.label4.TabIndex = 14;
@@ -221,11 +227,56 @@
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(607, 407);
+            this.label5.Location = new System.Drawing.Point(607, 511);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(131, 31);
             this.label5.TabIndex = 15;
             this.label5.Text = "Очистить";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Comic Sans MS", 25F);
+            this.label6.Location = new System.Drawing.Point(570, 175);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 47);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "З";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Comic Sans MS", 25F);
+            this.label7.Location = new System.Drawing.Point(577, 343);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 47);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Б";
+            // 
+            // pictureBox_Green
+            // 
+            this.pictureBox_Green.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox_Green.BackColor = System.Drawing.Color.LimeGreen;
+            this.pictureBox_Green.Location = new System.Drawing.Point(622, 172);
+            this.pictureBox_Green.Name = "pictureBox_Green";
+            this.pictureBox_Green.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox_Green.TabIndex = 17;
+            this.pictureBox_Green.TabStop = false;
+            this.pictureBox_Green.Click += new System.EventHandler(this.pictureBoxColor_Click);
+            // 
+            // pictureBox_White
+            // 
+            this.pictureBox_White.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox_White.BackColor = System.Drawing.Color.White;
+            this.pictureBox_White.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_White.Location = new System.Drawing.Point(622, 340);
+            this.pictureBox_White.Name = "pictureBox_White";
+            this.pictureBox_White.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox_White.TabIndex = 16;
+            this.pictureBox_White.TabStop = false;
+            this.pictureBox_White.Click += new System.EventHandler(this.pictureBoxColor_Click);
             // 
             // FormColoringBook
             // 
@@ -233,6 +284,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(204)))), ((int)(((byte)(153)))));
             this.ClientSize = new System.Drawing.Size(799, 573);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.pictureBox_Green);
+            this.Controls.Add(this.pictureBox_White);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -262,6 +317,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCanvas)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Green)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_White)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,6 +343,10 @@
         private System.Windows.Forms.ToolStripMenuItem клавиатураToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem мышьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox pictureBox_Green;
+        private System.Windows.Forms.PictureBox pictureBox_White;
     }
 }
 

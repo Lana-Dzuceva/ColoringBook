@@ -64,7 +64,8 @@ namespace ColoringBook
         static int size = 10;
         bool modeMouse = false;
         //Color[] usedColors = { Color.Red, Color.Yellow, Color.Purple };
-        string[] usedColors = { "Red", "Yellow", "Purple", "Blue" };
+        string[] usedColors = { "Red", "Yellow", "Purple", "Blue",
+                                 "White", "Green"};
 
         public Dictionary<string, string> dictColors = new Dictionary<string, string>
             {
@@ -72,15 +73,18 @@ namespace ColoringBook
                 { "Oem1", "Yellow" },// ";"
                 { "A", "Purple" },
                 { "C", "Blue" },
-            { "J", "Orange"}
+                { "J", "Orange"},
+                {"Oemcomma", "White" },
+                {"P", "Green" }
             };
 
         Image image = Image.FromFile("right.png");//пустышка, которая станет основой для холста
 
         Color[][] fieldColors = new Color[size][];
         int[][][] fieldCoords = new int[size][][];
-        int[] curPoint = new int[] { 0, 0 }; // col row
-
+        //int[] curPoint = new int[] { 0, 0 }; // col row
+        (int X, int Y) curPoint = (X: 0, Y: 0);
+        (int X, int Y) curCoords = (X: 0, Y: 0);
         Graphics graphics;
         Pen pen = new Pen(Color.Black, width: 6);
         SolidBrush brush = new SolidBrush(Color.Orange);
@@ -102,9 +106,10 @@ namespace ColoringBook
             graphics.Clear(Color.FromArgb(255, 255, 192));
         }
         private void FormColoringBook_Load(object sender, EventArgs e)
-        { }
+        { клавиатураToolStripMenuItem1.Checked = true; }
         private void InitializeField()
         {
+
             for (int i = 0; i < size; i++)
             {
                 var tempSize = size + Convert.ToInt32(i % 2 == 0);
@@ -146,7 +151,7 @@ namespace ColoringBook
                 br.SurroundColors = new Color[] {
                  color};
 
-                
+
                 graphics.FillPolygon(br, hexagon);
             }
             //для простой заливки
@@ -162,15 +167,15 @@ namespace ColoringBook
         // убирает фокус с клетки
         void UnfocusHoneyComb()
         {
-            var temp = GetCoordsFromPosition(curPoint[1], curPoint[0]);
-            DrawHoneyComb(radiusCell, temp[0], temp[1], fieldColors[curPoint[1]][curPoint[0]]);
+            var temp = GetCoordsFromPosition(curPoint.Y, curPoint.X);
+            DrawHoneyComb(radiusCell, temp[0], temp[1], fieldColors[curPoint.Y][curPoint.X]);
         }
         // отрисовка кружка на клетке с фокусом
         private void UpdateFocusHoneyComb()
         {
             var w = radiusCell * 2;
             var k = 0.75f;
-            var temp = GetCoordsFromPosition(curPoint[1], curPoint[0]);
+            var temp = GetCoordsFromPosition(curPoint.Y, curPoint.X);
             var x = temp[1];
             var y = temp[0];
             RectangleF rect = new RectangleF(y - radiusCell + 5, x - radiusCell + 5, w * k, w * k);
@@ -180,53 +185,53 @@ namespace ColoringBook
 
         bool IsLongRow()
         {
-            return fieldCoords[curPoint[1]].GetLength(0) == size + 1;
+            return fieldCoords[curPoint.Y].GetLength(0) == size + 1;
         }
         bool IsShortRow()
         {
-            return fieldCoords[curPoint[1]].GetLength(0) == size;
+            return fieldCoords[curPoint.Y].GetLength(0) == size;
         }
 
         // функции отвечающие за передвижение клетки, то есть смещение ее координат
         void MoveRight()
         {
-            if (curPoint[0] + 1 < fieldCoords[curPoint[1]].GetLength(0))
+            if (curPoint.X + 1 < fieldCoords[curPoint.Y].GetLength(0))
             {
-                curPoint[0]++;
+                curPoint.X++;
             }
         }
 
         void MoveLeft()
         {
-            if (curPoint[0] - 1 >= 0)
+            if (curPoint.X - 1 >= 0)
             {
-                curPoint[0]--;
+                curPoint.X--;
             }
         }
 
         void MoveUp()
         {
-            if (IsLongRow() && curPoint[0] != 0 && curPoint[1] != 0)
+            if (IsLongRow() && curPoint.X != 0 && curPoint.Y != 0)
             {
-                curPoint[0]--;
-                curPoint[1]--;
+                curPoint.X--;
+                curPoint.Y--;
             }
-            else if (IsShortRow() && curPoint[1] - 1 >= 0)
+            else if (IsShortRow() && curPoint.Y - 1 >= 0)
             {
-                curPoint[1]--;
+                curPoint.Y--;
             }
         }
 
         void MoveDown()
         {
-            if (IsLongRow() && curPoint[0] != size)
+            if (IsLongRow() && curPoint.X != size)
             {
-                curPoint[1]++;
+                curPoint.Y++;
             }
-            else if (IsShortRow() && curPoint[1] != size - 1)
+            else if (IsShortRow() && curPoint.Y != size - 1)
             {
-                curPoint[0] = Min(curPoint[0] + 1, size);
-                curPoint[1] = Min(curPoint[1] + 1, size - 1);
+                curPoint.X = Min(curPoint.X + 1, size);
+                curPoint.Y = Min(curPoint.Y + 1, size - 1);
             }
         }
 
@@ -261,10 +266,11 @@ namespace ColoringBook
                 case Keys.C:
                 case Keys.J:
                 case Keys.OemSemicolon://";"
+                case Keys.P:
+                case Keys.Oemcomma:
                     //var tempPen = new Pen(Color.FromName(dictColors[e.KeyCode.ToString()]));
                     PaintCell(e.KeyCode.ToString());
                     break;
-
                 case Keys.Space:
                     InitializeField();
                     break;
@@ -273,12 +279,12 @@ namespace ColoringBook
             }
             UpdateFocusHoneyComb();
         }
-        
+
         void PaintCell(string color)
         {
-            var temp = GetCoordsFromPosition(curPoint[1], curPoint[0]);
+            var temp = GetCoordsFromPosition(curPoint.Y, curPoint.X);
             DrawHoneyComb(radiusCell, temp[0], temp[1], Color.FromName(dictColors[color]));
-            fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(dictColors[color]);
+            fieldColors[curPoint.Y][curPoint.X] = Color.FromName(dictColors[color]);
         }
         //кликание на прямоугольники с цветами
         private void pictureBoxColor_Click(object sender, EventArgs e)
@@ -291,10 +297,16 @@ namespace ColoringBook
             var colorName = pb.Name.Split('_')[1];
             if (Array.IndexOf(usedColors, colorName) != -1)
             {
-                var temp = GetCoordsFromPosition(curPoint[1], curPoint[0]);
+                var temp = GetCoordsFromPosition(curPoint.Y, curPoint.X);
                 int x = temp[0], y = temp[1];
                 DrawHoneyComb(radiusCell, x, y, Color.FromName(colorName));
-                fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(colorName);
+                fieldColors[curPoint.Y][curPoint.X] = Color.FromName(colorName);
+            }
+            else
+            {
+                //DrawHoneyComb(radiusCell, x, y, Color.FromName(colorName));
+                //fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(colorName);
+
             }
         }
         // проверка на то, что человек кликнул именно на эту клетку
@@ -315,8 +327,8 @@ namespace ColoringBook
                         if (IsClickedOnHoneyComb(e.X, e.Y, fieldCoords[i][r][0], fieldCoords[i][r][1]))
                         {
                             UnfocusHoneyComb();
-                            curPoint[0] = r;
-                            curPoint[1] = i;
+                            curPoint.X = r;
+                            curPoint.Y = i;
                             UpdateFocusHoneyComb();
                         }
                     }
@@ -366,16 +378,21 @@ namespace ColoringBook
         private void клавиатураToolStripMenuItem_Click(object sender, EventArgs e)
         {
             modeMouse = false;
+            клавиатураToolStripMenuItem1.Checked = true;
+            мышьToolStripMenuItem.Checked = false;
         }
 
         private void mouseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             modeMouse = true;
+            клавиатураToolStripMenuItem1.Checked = false;
+            мышьToolStripMenuItem.Checked = true;
         }
 
         private void pictureBoxClear_Click(object sender, EventArgs e)
         {
-            var temp = GetCoordsFromPosition(curPoint[0], curPoint[1]);
+            //fieldColors
+            var temp = GetCoordsFromPosition(curPoint.X, curPoint.Y);
             DrawHoneyComb(radiusCell, temp[0], temp[1], baseColor);
         }
         private void FormColoringBook_Shown(object sender, EventArgs e)
@@ -388,11 +405,12 @@ namespace ColoringBook
         {
             foreach (var command in Commands.commands)
             {
-                var temp = command.Split();
+                (var type, var cmd) = command;
+                //var temp = command.Split();
                 try
                 {
                     UnfocusHoneyComb();
-                    switch (temp[1])
+                    switch (cmd)
                     {
 
                         case "Right": MoveRight(); break;
@@ -400,7 +418,7 @@ namespace ColoringBook
                         case "Down": MoveDown(); break;
                         case "Up": MoveUp(); break;
                         default:
-                            PaintCell(temp[1]);
+                            PaintCell(cmd);
                             break;
 
                     }
