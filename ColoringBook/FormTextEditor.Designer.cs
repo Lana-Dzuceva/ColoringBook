@@ -76,6 +76,7 @@
             this.Name = "FormTextEditor";
             this.Text = "Редактор кода";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormTextEditor_FormClosed);
+            this.Load += new System.EventHandler(this.FormTextEditor_Load);
             this.Shown += new System.EventHandler(this.FormTextEditor_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormTextEditor_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextEditor)).EndInit();

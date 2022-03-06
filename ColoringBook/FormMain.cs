@@ -78,8 +78,9 @@ namespace ColoringBook
                 {"P", "Green" }
             };
 
-        Image image = Image.FromFile("right.png");//пустышка, которая станет основой для холста
-        
+        //Image image = Image.FromFile("right.png");//пустышка, которая станет основой для холста
+        Image image = Properties.Resources.right;//пустышка, которая станет основой для холста
+
         Color[][] fieldColors = new Color[size][];
         int[][][] fieldCoords = new int[size][][];
         //int[] curPoint = new int[] { 0, 0 }; // col row

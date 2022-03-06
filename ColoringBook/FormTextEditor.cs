@@ -40,10 +40,15 @@ namespace ColoringBook
 
         Dictionary<string, Image> arrows = new Dictionary<string, Image>
         {
-            {"Right" , Image.FromFile("right.png") },
-            {"Left" , Image.FromFile("left.png") },
-            {"Up", Image.FromFile("up.png") },
-            {"Down", Image.FromFile("down.png") }
+            //{"Right" , Image.FromFile("right.png") },
+            //{"Left" , Image.FromFile("left.png") },
+            //{"Up", Image.FromFile("up.png") },
+            //{"Down", Image.FromFile("down.png") }
+            
+            {"Right" , Properties.Resources.right },
+            {"Left" , Properties.Resources.left },
+            {"Up", Properties.Resources.up },
+            {"Down", Properties.Resources.down}
         };
 
         Dictionary<string, string> dictColors = new Dictionary<string, string>
@@ -173,6 +178,10 @@ namespace ColoringBook
             Commands.commands.Clear();
         }
 
+        private void FormTextEditor_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
 
