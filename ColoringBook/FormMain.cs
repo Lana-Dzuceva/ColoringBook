@@ -79,7 +79,7 @@ namespace ColoringBook
             };
 
         Image image = Image.FromFile("right.png");//пустышка, которая станет основой для холста
-
+        
         Color[][] fieldColors = new Color[size][];
         int[][][] fieldCoords = new int[size][][];
         //int[] curPoint = new int[] { 0, 0 }; // col row
