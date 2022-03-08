@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>color_palette_brush_paint_icon_193947.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -107,6 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="color_palette_brush_paint_icon_193947.ico" />
+    <Content Include="palette256.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormColoringBook));
             this.pictureBox_Blue = new System.Windows.Forms.PictureBox();
             this.pictureBox_Purple = new System.Windows.Forms.PictureBox();
@@ -50,6 +51,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox_Green = new System.Windows.Forms.PictureBox();
             this.pictureBox_White = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Blue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Purple)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Yellow)).BeginInit();
@@ -278,6 +280,11 @@
             this.pictureBox_White.TabStop = false;
             this.pictureBox_White.Click += new System.EventHandler(this.pictureBoxColor_Click);
             // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
             // FormColoringBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,6 +354,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox_Green;
         private System.Windows.Forms.PictureBox pictureBox_White;
+        private System.Windows.Forms.Timer timer;
     }
 }
 
