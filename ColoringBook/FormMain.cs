@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using static System.Math;
 //var temp = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + @"\hmm.png");
@@ -88,7 +89,10 @@ namespace ColoringBook
         (int X, int Y) curPoint = (X: 0, Y: 0);
         (int X, int Y) curCoords = (X: 0, Y: 0);
         Graphics graphics;
-        Pen pen = new Pen(Color.Black, width: 6);
+        //Pen pen = new Pen(Color.Black, width: 6);
+
+        Pen pen_for_hexagon = new Pen(Color.FromArgb(51, 35, 27), width: 5);
+        Pen pen_for_circle = new Pen(Color.FromArgb(51, 35, 27), width: 3f);
         SolidBrush brush = new SolidBrush(Color.Orange);
         Color baseColor = Color.Orange;
 
@@ -178,7 +182,7 @@ namespace ColoringBook
             var x = temp[1];
             var y = temp[0];
             RectangleF rect = new RectangleF(y - radiusCell + 5, x - radiusCell + 5, w * k, w * k);
-            graphics.DrawEllipse(pen, rect);
+            graphics.DrawEllipse(pen_for_circle, rect);
             UpdateCanvas();
         }
 

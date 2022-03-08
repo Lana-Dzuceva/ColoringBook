@@ -127,7 +127,6 @@
             this.pictureBoxCanvas.Size = new System.Drawing.Size(481, 400);
             this.pictureBoxCanvas.TabIndex = 6;
             this.pictureBoxCanvas.TabStop = false;
-            this.pictureBoxCanvas.Click += new System.EventHandler(this.pictureBoxCanvas_Click);
             this.pictureBoxCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxHolst_MouseDown);
             // 
             // menuStrip1
