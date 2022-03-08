@@ -58,9 +58,10 @@ namespace ColoringBook
 
     public partial class FormColoringBook : Form
     {
+        SaveFileDialog sfd = new SaveFileDialog();
         int widthCell = 36;
         int heightCell = 32;
-        int radiusCell = 20;
+        int radiusCell = 20 + 1;
         static int size = 10;
         bool modeMouse = false;
         //Color[] usedColors = { Color.Red, Color.Yellow, Color.Purple };
@@ -143,16 +144,13 @@ namespace ColoringBook
                     x + r * (float)Math.Cos(angle_rad),
                     y + r * (float)Math.Sin(angle_rad));
             }
-            pen.Color = Color.FromArgb(51, 35, 27);
-            graphics.DrawPolygon(pen, hexagon);
+
+            graphics.DrawPolygon(pen_for_hexagon, hexagon);
             using (PathGradientBrush br = new PathGradientBrush(hexagon))
             {
                 br.CenterPoint = new PointF(x, y);
                 br.CenterColor = Color.Bisque;
-                br.SurroundColors = new Color[] {
-                 color};
-
-
+                br.SurroundColors = new Color[] { color };
                 graphics.FillPolygon(br, hexagon);
             }
             //для простой заливки
@@ -309,6 +307,7 @@ namespace ColoringBook
                 //fieldColors[curPoint[1]][curPoint[0]] = Color.FromName(colorName);
 
             }
+            UpdateFocusHoneyComb();
         }
         // проверка на то, что человек кликнул именно на эту клетку
         bool IsClickedOnHoneyComb(int x, int y, int x2, int y2)
@@ -323,7 +322,9 @@ namespace ColoringBook
             {
                 for (int i = 0; i < size; i++)
                 {
-                    for (int r = 0; r < size; r++)
+                    int rr = size;
+                    if (i % 2 == 0) rr++;
+                    for (int r = 0; r < rr; r++)
                     {
                         if (IsClickedOnHoneyComb(e.X, e.Y, fieldCoords[i][r][0], fieldCoords[i][r][1]))
                         {
@@ -373,7 +374,23 @@ namespace ColoringBook
             //{
             //    bm.Save(sfd.FileName);
             //}
-            pictureBoxCanvas.Image.Save("image.png");
+            UnfocusHoneyComb();
+            Bitmap bmpSave = (Bitmap)image;
+
+
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                DefaultExt = "bmp",
+                Filter = "Image files (*.bmp)|*.bmp|All files (*.*)|*.*",
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+                bmpSave.Save(sfd.FileName, ImageFormat.Bmp);
+            UpdateFocusHoneyComb();
+            //UnfocusHoneyComb();
+            //pictureBoxCanvas.Image.Save("image.png");
+            //UpdateFocusHoneyComb();
+            MessageBox.Show("Сохранено");
+
         }
 
         private void клавиатураToolStripMenuItem_Click(object sender, EventArgs e)
@@ -392,9 +409,13 @@ namespace ColoringBook
 
         private void pictureBoxClear_Click(object sender, EventArgs e)
         {
+            if (!modeMouse) return;
             //fieldColors
             var temp = GetCoordsFromPosition(curPoint.X, curPoint.Y);
+            fieldColors[curPoint.Y][curPoint.X] = baseColor;
             DrawHoneyComb(radiusCell, temp[0], temp[1], baseColor);
+            UpdateFocusHoneyComb();
+
         }
         private void FormColoringBook_Shown(object sender, EventArgs e)
         {
@@ -439,5 +460,11 @@ namespace ColoringBook
             pictureBoxCanvas.Image = image;
         }
 
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            var temp = GetCoordsFromPosition(curPoint.Y, curPoint.X);
+            DrawHoneyComb(radiusCell, temp[0], temp[1], fieldColors[curPoint.Y][curPoint.X]);
+            UpdateFocusHoneyComb();
+        }
     }
 }
